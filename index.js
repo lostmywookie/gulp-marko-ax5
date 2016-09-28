@@ -5,6 +5,7 @@ var through = require('through2');
 var marko = require('marko');
 var extend = require('node.extend');
 var htmlparser = require("htmlparser");
+require('marko/hot-reload').enable();
 
 function compile(options, data) {
     return through.obj(function (file, enc, cb) {
@@ -20,6 +21,7 @@ function compile(options, data) {
 
         try {
 
+            // transforming plugin metadata to template data
             var
                 rawHtml = fs.readFileSync(file.path),
                 handler = new htmlparser.DefaultHandler(
@@ -38,6 +40,9 @@ function compile(options, data) {
             else{
                 data.metadata = {};
             }
+
+            // reloading template just in case the template file has changed
+            require('marko/hot-reload').handleFileModified(file.path);
 
             var tmpl = marko.load(file.path, options.options), position;
             file.contents = new Buffer(tmpl.renderSync(data));
