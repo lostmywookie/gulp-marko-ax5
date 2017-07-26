@@ -2,7 +2,7 @@
 
 # gulp-marko-ax5
 
-Render marko template with Gulp for Marko v3 — http://markojs.com/
+Render marko template with Gulp for Marko http://markojs.com/
 
 
 ##Install
